@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import { TouchableHighlight, Text, TextInput, View } from 'react-native'
+import { TouchableHighlight, Text, TextInput, View, ScrollView } from 'react-native'
 import stringScore from 'string_score'
 import Styles from './Styles'
 class AutoComplete extends Component {
@@ -79,7 +79,7 @@ class AutoComplete extends Component {
     }
 
     return (
-      <View
+      <ScrollView
         style={this.props.suggestionsWrapperStyle || Styles.suggestionsWrapper}
       >
         {
@@ -100,7 +100,7 @@ class AutoComplete extends Component {
             </TouchableHighlight>
           ))
         }
-      </View>
+      </ScrollView>
     )
   }
 
