@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
 import { TouchableHighlight, Text, TextInput, View } from 'react-native'
 import stringScore from 'string_score'
 import Styles from './Styles'
-
 class AutoComplete extends Component {
   componentDidMount () {
     this.suggestions = this.filterSugestions(
@@ -25,6 +25,9 @@ class AutoComplete extends Component {
   }
 
   isSimilar = (value, suggestionText) => {
+    if(this.props.allDataOnEmptySearch && !value) {
+      return true;
+    }
     const suggestionScore = stringScore(
       suggestionText, value, this.props.comparationFuzziness
     )
@@ -34,7 +37,7 @@ class AutoComplete extends Component {
 
   shouldFilterSuggestions = (newSuggestions, value) => {
     return newSuggestions && newSuggestions.length &&
-      value && !this.selectedSuggestion
+      (this.props.allDataOnEmptySearch || (value && !this.props.allDataOnEmptySearch)) && !this.selectedSuggestion
   }
 
   filterSugestions = (newSuggestions, value) => {
@@ -117,23 +120,25 @@ class AutoComplete extends Component {
 }
 
 AutoComplete.propTypes = {
-  suggestions: React.PropTypes.array,
-  value: React.PropTypes.string,
-  minimumSimilarityScore: React.PropTypes.number,
-  comparationFuzziness: React.PropTypes.number,
-  suggestionObjectTextProperty: React.PropTypes.string,
-  onChangeText: React.PropTypes.func,
-  onSelect: React.PropTypes.func.isRequired,
-  suggestionsWrapperStyle: React.PropTypes.any,
-  suggestionStyle: React.PropTypes.any,
-  suggestionTextStyle: React.PropTypes.any,
-  style: React.PropTypes.any,
-  inputStyle: React.PropTypes.any
+  suggestions: PropTypes.array,
+  value: PropTypes.string,
+  minimumSimilarityScore: PropTypes.number,
+  comparationFuzziness: PropTypes.number,
+  suggestionObjectTextProperty: PropTypes.string,
+  onChangeText: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
+  suggestionsWrapperStyle: PropTypes.any,
+  suggestionStyle: PropTypes.any,
+  suggestionTextStyle: PropTypes.any,
+  style: PropTypes.any,
+  inputStyle: PropTypes.any,
+  allDataOnEmptySearch: PropTypes.bool,
 }
 
 AutoComplete.defaultProps = {
   minimumSimilarityScore: 0.6,
-  comparationFuzziness: 0.5
+  comparationFuzziness: 0.5,
+  allDataOnEmptySearch: false,
 }
 
 export default AutoComplete
