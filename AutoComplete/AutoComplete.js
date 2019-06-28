@@ -81,6 +81,7 @@ class AutoComplete extends Component {
     return (
       <ScrollView
         style={this.props.suggestionsWrapperStyle || Styles.suggestionsWrapper}
+        {...this.props.scrollViewProps}
       >
         {
           suggestionTexts.map((text, index) => (
@@ -133,12 +134,14 @@ AutoComplete.propTypes = {
   style: PropTypes.any,
   inputStyle: PropTypes.any,
   allDataOnEmptySearch: PropTypes.bool,
+  scrollViewProps: PropTypes.object,
 }
 
 AutoComplete.defaultProps = {
   minimumSimilarityScore: 0.6,
   comparationFuzziness: 0.5,
   allDataOnEmptySearch: false,
+  scrollViewProps: {},
 }
 
 export default AutoComplete
